@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -60,7 +58,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public int checkUser(HashMap<String, String> map_user) {
 
         String sql = String.format("SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'",
-                    TBL_USERS, TBL_USER_USERNAME, map_user.get(TBL_USER_USERNAME), TBL_USER_PASSWORD, map_user.get(TBL_USER_PASSWORD));
+                TBL_USERS, TBL_USER_USERNAME, map_user.get(TBL_USER_USERNAME), TBL_USER_PASSWORD, map_user.get(TBL_USER_PASSWORD));
         Cursor cur = dbReadable.rawQuery(sql, null);
 
         int userId = 0;
@@ -93,7 +91,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public ArrayList<HashMap<String, String>> getSelectUser(int userid) {
 
-        String sql = "SELECT * FROM" + TBL_USERS + "WHERE" + TBL_USER_ID + "=" +userid;
+        String sql = "SELECT * FROM " + TBL_USERS + " WHERE " + TBL_USER_ID + " = " +userid;
         Cursor cur = dbReadable.rawQuery(sql, null);
 
         ArrayList<HashMap<String, String>> select_user = new ArrayList();
@@ -105,10 +103,20 @@ public class DbHelper extends SQLiteOpenHelper {
             map_user.put(TBL_USER_USERNAME, cur.getString(cur.getColumnIndex(TBL_USER_USERNAME)));
             select_user.add(map_user);
 
-
         }
         cur.close();
 
         return select_user;
+    }
+
+
+
+    public void updateUser(HashMap<String, String> map_user) {
+        ContentValues val = new ContentValues();
+        val.put(TBL_USER_USERNAME, map_user.get(TBL_USER_USERNAME));
+        val.put(TBL_USER_PASSWORD,map_user.get(TBL_USER_PASSWORD));
+        val.put(TBL_USER_FULLNAME, map_user.get(TBL_USER_FULLNAME));
+
+        dbWritable.update(TBL_USERS, val, TBL_USER_ID + " = " + map_user.get(TBL_USER_ID), null);
     }
 }

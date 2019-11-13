@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
                 public void onClick(View view) {
 
                     db.deleteUser(userid);
-                    Toast.makeText(HomeActivity.this, "User deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, "Deleted !", Toast.LENGTH_SHORT).show();
                     fetch_users();
                 }
             });
@@ -91,5 +91,11 @@ public class HomeActivity extends AppCompatActivity {
 
             return convertView;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        fetch_users();
+        super.onResume();
     }
 }

@@ -2,6 +2,7 @@ package com.astapan.lab;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -76,6 +77,8 @@ public class SignupActivity extends AppCompatActivity {
                     userid = db.createUser(map_user);
                     if(userid < 1) {
                         Toast.makeText(this, "USER SUCCESSFULLY CREATED", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
                     }
                     else {
                         etUsername.setError("Username already existed");
